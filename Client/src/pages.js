@@ -2,7 +2,7 @@ const pages = [
   {
     url: "/home",
     name: "דף הבית",
-    component: <></>,
+    component: <>Hi</>,
   },
   {
     url: "/cart",

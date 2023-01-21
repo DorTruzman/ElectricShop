@@ -1,20 +1,20 @@
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../services/firebase";
+import { auth, logout } from "../services/firebase";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { InputBase, MenuItem } from "@mui/material";
 import { alpha, styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import pages from "../pages";
+import useName from "../hooks/useName";
 
 function Navbar() {
   const [user] = useAuthState(auth);
+  const { name } = useName();
   const navigate = useNavigate();
 
   const Search = styled("div")(({ theme }) => ({
@@ -64,8 +64,9 @@ function Navbar() {
               חשמל באוויר
             </Typography>
 
-            {!user ? (
+            {user ? (
               <>
+                <Typography variant="h7">שלום, {name}!</Typography>
                 <Search>
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -77,10 +78,14 @@ function Navbar() {
                     <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
                 ))}
-                <Button color="inherit">התנתקות</Button>
+                <Button color="inherit" onClick={() => logout()}>
+                  התנתקות
+                </Button>
               </>
             ) : (
-              <Button color="inherit">התחברות</Button>
+              <Button color="inherit" onClick={() => navigate("/login")}>
+                התחברות
+              </Button>
             )}
           </Toolbar>
         </AppBar>

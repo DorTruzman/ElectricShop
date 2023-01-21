@@ -1,39 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth, signInWithGoogle } from "../services/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import {
+  registerWithEmailAndPassword,
+  signInWithGoogle,
+} from "../services/firebase";
 import { Button, FormControl, Input, Typography } from "@mui/material";
 import GoogleButton from "react-google-button";
 import * as isEmail from "is-email";
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading] = useAuthState(auth);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/home");
-  }, [user, loading, navigate]);
 
   return (
     <>
-      <Typography variant="h4">התחברות</Typography>
-      <FormControl style={{ marginTop: 10 }}>
+      <Typography variant="h4">הרשמה</Typography>
+      <FormControl>
         <>
-          <Button
-            onClick={() => navigate("/register")}
-            variant="contained"
-            color="secondary"
-          >
-            הרשמה עם מייל וסיסמה
-          </Button>
           <GoogleButton
             label="התחברות באמצעות Google"
             style={{ margin: 20 }}
-            onClick={signInWithGoogle}
+            onClick={() => {
+              try {
+                signInWithGoogle();
+              } catch (err) {}
+            }}
           />
         </>
         <Input
@@ -52,15 +42,15 @@ function LoginPage() {
         />
         <Button
           disabled={!email || !password || !isEmail(email)}
-          onClick={() => signInWithEmailAndPassword(email, password)}
+          onClick={() => registerWithEmailAndPassword(email, password)}
           style={{ margin: 20 }}
           variant="contained"
           color="success"
         >
-          התחברות רגילה
+          הרשמה
         </Button>
       </FormControl>
     </>
   );
 }
-export default LoginPage;
+export default RegisterPage;

@@ -8,20 +8,20 @@ function useName() {
   const [name, setName] = useState();
   const [error, setError] = useState();
 
-  const fetchName = async () => {
-    try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setName(data.name);
-    } catch (err) {
-      setError(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchName = async () => {
+      try {
+        const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+        const doc = await getDocs(q);
+        const data = doc.docs[0].data();
+        setName(data.name);
+      } catch (err) {
+        setError(error);
+      }
+    };
+
     fetchName();
-  }, []);
+  }, [error, user]);
 
   return { name, error };
 }
