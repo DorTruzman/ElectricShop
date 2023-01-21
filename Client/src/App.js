@@ -31,7 +31,6 @@ function App() {
             ))}
 
             <Route
-              key={"routeDefault"}
               exact
               path="/"
               element={<ProtectedRoute>{pages[0]?.component}</ProtectedRoute>}
