@@ -1,7 +1,6 @@
-import { auth, db } from "../services/firebase";
+import { auth, getUserDisplayName } from "../services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect, useState } from "react";
-import { query, collection, getDocs, where } from "firebase/firestore";
 
 function useName() {
   const [user] = useAuthState(auth);
@@ -11,10 +10,7 @@ function useName() {
   useEffect(() => {
     const fetchName = async () => {
       try {
-        const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-        const doc = await getDocs(q);
-        const data = doc.docs[0].data();
-        setName(data.name);
+        setName(await getUserDisplayName(user?.uid));
       } catch (err) {
         setError(error);
       }

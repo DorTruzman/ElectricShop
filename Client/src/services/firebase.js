@@ -31,6 +31,13 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
+const getUserDisplayName = async (uid) => {
+  const q = query(collection(db, "users"), where("uid", "==", uid));
+  const doc = await getDocs(q);
+  const data = doc.docs[0].data();
+  return data.name;
+};
+
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
@@ -80,6 +87,7 @@ const logout = () => {
 export {
   auth,
   db,
+  getUserDisplayName,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
