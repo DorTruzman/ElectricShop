@@ -60,8 +60,8 @@ app.get('/product/:id', async (req, res) => {
   res.render('products/show' , {product});
 })
 
-app.listen(3005, () => {
-  console.log("listening on port 3005!");
+app.listen(8000, () => {
+  console.log("listening on port 8000!");
 })
 
 
