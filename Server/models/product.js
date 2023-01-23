@@ -10,10 +10,18 @@ const productSchema = new mongoose.Schema({
         require: true,
         min: 0
     },
-    category: {
+    itemType: {
         type: String,
         lowercase: true,
         enum: ['phone', 'TV', 'tablet']
+    },
+    image: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        require: true
     }
 })
 
