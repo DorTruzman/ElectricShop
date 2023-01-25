@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
 
+    productId: {
+        type: String,
+        require: true
+    },
     name: {
         type: String,
         require: true
@@ -10,10 +14,8 @@ const productSchema = new mongoose.Schema({
         require: true,
         min: 0
     },
-    itemType: {
-        type: String,
-        lowercase: true,
-        enum: ['phone', 'TV', 'tablet']
+    type: {
+        type: Number
     },
     image: {
         type: String,
@@ -23,7 +25,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         require: true
     }
-})
+}, {collection: 'product'})
 
-const Product = mongoose.model('products', productSchema);
+const Product = mongoose.model('Product', productSchema, 'product');
 module.exports = Product;

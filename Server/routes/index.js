@@ -5,11 +5,11 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded( { extended: true }));
-//const Product = require('./models/it');
 const methodOverride = require('method-override');
 const Product = require("../models/product");
 const UserSchema = require("../models/user");
 app.use(methodOverride('_method'));
+app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/local', { useNewUrlParser: true })
     .then(() => {
@@ -18,68 +18,61 @@ mongoose.connect('mongodb://localhost:27017/local', { useNewUrlParser: true })
   console.log("no connection start");
 })
 
-
-// TODO: fix
-app.get('/products/:id/edit', async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  res.render('products/edit' , {product});
-})
-
-// TODO: fix
-app.post('/products/:id', async (req, res) => {
-
-  const { id } = req.params;
-  //   res.send(id);
-  const pro = await Product.findByIdAndUpdate(id , req.body , {runValidators: true , new: true})
-  res.redirect(`/product/${pro._id}`);
-})
-
-// TODO: fix
-app.post('/product/:id', async (req, res) => {
-  const { id } = req.params;
-  const pro = await Product.findByIdAndDelete(id);
-  res.redirect(`/products`);
-})
-
-// TODO: fix
-app.post('/products/r', async (req, res) => {
-
-  const newProduct = new Product(req.body);
-  await newProduct.save();
-  res.redirect(`/product/${newProduct._id}`);
-
-})
-
+// Products
 app.get('/products', async (req, res) => {
   const products = await Product.find({});
   console.log(products);
   res.json({products});
-  //res.render('products/index' , {products});
 })
 
-// TODO: fix
-app.get('/product/:id', async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
+app.post('/newProduct', async (req, res) => {
+
+  const newProduct = new Product(req.body);
+  await newProduct.save();
+  res.json({newProduct});
+})
+
+app.post('/updateProduct', async (req, res) => {
+  const updatedProduct = await Product.findOneAndUpdate({_id: req.query.id}, {$set: req.body}, {'new': true});
+  console.log({_id: req.query.id}, {$set: req.body}, {'new': true});
+  res.json({updatedProduct});
+})
+
+app.delete('/product', async (req, res) => {
+  const pro = await Product.findByIdAndDelete(req.query.id);
+  res.json({pro});
+})
+
+app.get('/product', async (req, res) => {
+  const product = await Product.findById(req.query.id);
   res.json({product});
-  //res.render('products/show' , {product});
 })
 
 app.get('/users', async (req, res) => {
   const users = await UserSchema.find({});
   console.log(users);
   res.json({users});
-  //res.render('users/index' , {users});
 })
 
-// TODO: fix
-app.get('/user/:email', async (req, res) => {
-  const { email } = req.params;
-  const user = await UserSchema.find({email});
-  console.log(user);
+app.get('/user', async (req, res) => {
+  const user = await UserSchema.find({ email: req.query.email});
   res.json({user});
-  //res.render('users/index' , {users});
+})
+
+app.post('/newUser', async (req, res) => {
+  var newUser;
+  try {
+    newUser = new UserSchema(req.body);
+    await newUser.save();
+  }catch (e) {
+    newUser = null;
+  }
+  res.json({newUser});
+})
+
+app.post('/updateUser', async (req, res) => {
+  const updatedUser = await UserSchema.findOneAndUpdate({_id: req.query._id}, {$set: req.body});
+  res.json({updatedUser});
 })
 
 app.listen(8000, () => {
