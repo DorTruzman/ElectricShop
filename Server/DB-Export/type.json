@@ -1,0 +1,20 @@
+{
+    "_id" : ObjectId("63d58e2dc77e3d341a0a15e5"),
+    "id" : NumberInt(1),
+    "name" : "טלוויזיות"
+}
+{
+    "_id" : ObjectId("63d58e2dc77e3d341a0a15e6"),
+    "id" : NumberInt(2),
+    "name" : "מזגנים"
+}
+{
+    "_id" : ObjectId("63d58e2dc77e3d341a0a15e7"),
+    "id" : NumberInt(3),
+    "name" : "מקררים"
+}
+{
+    "_id" : ObjectId("63d58e2dc77e3d341a0a15e8"),
+    "id" : NumberInt(4),
+    "name" : "טלפונים"
+}

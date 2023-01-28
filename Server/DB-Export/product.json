@@ -1,0 +1,38 @@
+{
+    "_id" : "63d0ff10c77e3d341a0a15e1",
+    "name" : "Samsung 4K 55",
+    "description" : "טלוויזיה חדשה 55",
+    "image" : "https://www.payngo.co.il/media/catalog/product/cache/142fd3372bf734bc9f90e710566b5dac/a/u/au7100_4.jpg",
+    "price" : NumberInt(2000),
+    "type" : NumberInt(1),
+    "productId" : "1"
+}
+{
+    "_id" : ObjectId("63d126b3d10cb01c103e3a9f"),
+    "productId" : "1",
+    "name" : "Samsung 4K 65",
+    "price" : NumberInt(2000),
+    "type" : NumberInt(1),
+    "image" : "https://www.payngo.co.il/media/catalog/product/cache/142fd3372bf734bc9f90e710566b5dac/a/u/au7100_4.jpg",
+    "description" : "טלוויזיה חדשה 65",
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : "63d0ff2bc77e3d341a0a15e3",
+    "name" : "Tornado Inverter 555",
+    "description" : "אחלה מזגן",
+    "image" : "https://www.tornado-top.co.il/download/catalog/Series/31.png",
+    "price" : NumberInt(700),
+    "type" : NumberInt(2),
+    "productId" : "2"
+}
+{
+    "_id" : ObjectId("63d5a726f2bdef69f6ba3a47"),
+    "productId" : "1",
+    "name" : "Samsung 4K 65",
+    "price" : NumberInt(2000),
+    "type" : NumberInt(1),
+    "image" : "https://www.payngo.co.il/media/catalog/product/cache/142fd3372bf734bc9f90e710566b5dac/a/u/au7100_4.jpg",
+    "description" : "טלוויזיה חדשה 120",
+    "__v" : NumberInt(0)
+}

@@ -1,0 +1,16 @@
+{
+    "_id" : ObjectId("63d0324dc77e3d341a0a15df"),
+    "email" : "orelz16@gmail.com",
+    "username" : "orelz16",
+    "password" : "123456",
+    "firstName" : "Orel",
+    "lastName" : "Zluf"
+}
+{
+    "_id" : ObjectId("63d0324dc77e3d341a0a15e0"),
+    "email" : "dort@gmail.com",
+    "username" : "dort",
+    "password" : "123456",
+    "firstName" : "Dor",
+    "lastName" : "Truzman"
+}
