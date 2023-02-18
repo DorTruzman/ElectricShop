@@ -1,8 +1,9 @@
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Product({
-  id,
+  _id,
   name,
   price,
   description,
@@ -11,6 +12,8 @@ function Product({
   addToCart,
   searchProductsByType,
 }) {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ width: 360, marginRight: 2, marginLeft: 2 }}>
       <Box sx={{ my: 3, mx: 2 }}>
@@ -31,9 +34,6 @@ function Product({
             </Typography>
           </Grid>
         </Grid>
-        <Typography color="text.secondary" variant="body2">
-          {description}
-        </Typography>
       </Box>
       <Divider variant="middle" />
       <Box
@@ -45,22 +45,24 @@ function Product({
       >
         <img src={image} style={{ maxWidth: 180 }} alt="Product" />
       </Box>
-      <Box sx={{ mt: 4, ml: 15 }}>
+      <Box sx={{ mt: 4, ml: 9, my: 1 }}>
         <Button
           onClick={() => {
-            addToCart && addToCart(id);
+            addToCart && addToCart(_id);
           }}
         >
           הוספה לסל הקניות
         </Button>
-        {/* <Button
+        <Button
           color="success"
           onClick={() => {
-            searchProductsByType && searchProductsByType(productType._id);
+            navigate("/product", {
+              state: { productId: _id },
+            });
           }}
         >
-          עוד {productType.name}
-        </Button> */}
+          צפייה במוצר
+        </Button>
       </Box>
     </Box>
   );

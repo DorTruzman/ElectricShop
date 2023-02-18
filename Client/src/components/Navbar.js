@@ -29,7 +29,14 @@ function Navbar() {
             >
               <SearchIcon />
             </IconButton> */}
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              onClick={() => navigate("/home")}
+              style={{ cursor: "pointer" }}
+              variant="h6"
+              component="div"
+              fontWeight={"bold"}
+              sx={{ flexGrow: 1 }}
+            >
               חשמל באוויר
             </Typography>
 

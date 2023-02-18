@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
 import pages from "./pages";
 import RegisterPage from "./pages/RegisterPage";
+import ProductViewPage from "./pages/ProductViewPage";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
+            <Route
+              path="/product"
+              element={
+                <ProtectedRoute>
+                  <ProductViewPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </Router>
