@@ -24,8 +24,8 @@ const items = [
     type: 1,
     itemType: {
       id: 1,
-      name: "טלוויזיות"
-    }
+      name: "טלוויזיות",
+    },
   },
   {
     id: 1,
@@ -36,9 +36,9 @@ const items = [
     type: 2,
     itemType: {
       id: 2,
-      name: "מזגנים"
-    }
-  }
+      name: "מזגנים",
+    },
+  },
 ];
 
 export { itemTypes, items };

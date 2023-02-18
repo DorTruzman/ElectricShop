@@ -1,10 +1,10 @@
-import ItemsPage from "./pages/ItemsPage";
+import ProductsPage from "./pages/ProductsPage";
 
 const pages = [
   {
     url: "/home",
     name: "דף הבית",
-    component: <ItemsPage />,
+    component: <ProductsPage />,
   },
   {
     url: "/cart",

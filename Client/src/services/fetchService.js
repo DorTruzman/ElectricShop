@@ -42,10 +42,21 @@ const getEntities = async ({ name }) => {
   else throw new Error(`Cannot get ${name}s`);
 };
 
+const searchEntity = async ({ name, params }) => {
+  const result = await fetch(`${SERVER_URL}/${name}s/search`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ searchParams: params }),
+  });
+
+  if (result.ok) return result.json();
+  else throw new Error(`Cannot get ${name}s`);
+};
 export {
   createEntity,
   updateEntityById,
   deleteEntityById,
   getEntityById,
   getEntities,
+  searchEntity,
 };

@@ -1,117 +1,117 @@
-var ItemModel = require('../models/itemModel.js');
+var AreaModel = require('../models/areaModel.js');
 
 /**
- * itemController.js
+ * areaController.js
  *
- * @description :: Server-side logic for managing items.
+ * @description :: Server-side logic for managing areas.
  */
 module.exports = {
 
     /**
-     * itemController.list()
+     * areaController.list()
      */
     list: function (req, res) {
-        ItemModel.find(function (err, items) {
+        AreaModel.find(function (err, areas) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting item.',
+                    message: 'Error when getting area.',
                     error: err
                 });
             }
 
-            return res.json(items);
+            return res.json(areas);
         });
     },
 
     /**
-     * itemController.show()
+     * areaController.show()
      */
     show: function (req, res) {
         var id = req.params.id;
 
-        ItemModel.findOne({_id: id}, function (err, item) {
+        AreaModel.findOne({_id: id}, function (err, area) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting item.',
+                    message: 'Error when getting area.',
                     error: err
                 });
             }
 
-            if (!item) {
+            if (!area) {
                 return res.status(404).json({
-                    message: 'No such item'
+                    message: 'No such area'
                 });
             }
 
-            return res.json(item);
+            return res.json(area);
         });
     },
 
     /**
-     * itemController.create()
+     * areaController.create()
      */
     create: function (req, res) {
-        var item = new ItemModel({
-			price : req.body.price
+        var area = new AreaModel({
+			name : req.body.name
         });
 
-        item.save(function (err, item) {
+        area.save(function (err, area) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating item',
+                    message: 'Error when creating area',
                     error: err
                 });
             }
 
-            return res.status(201).json(item);
+            return res.status(201).json(area);
         });
     },
 
     /**
-     * itemController.update()
+     * areaController.update()
      */
     update: function (req, res) {
         var id = req.params.id;
 
-        ItemModel.findOne({_id: id}, function (err, item) {
+        AreaModel.findOne({_id: id}, function (err, area) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting item',
+                    message: 'Error when getting area',
                     error: err
                 });
             }
 
-            if (!item) {
+            if (!area) {
                 return res.status(404).json({
-                    message: 'No such item'
+                    message: 'No such area'
                 });
             }
 
-            item.price = req.body.price ? req.body.price : item.price;
+            area.name = req.body.name ? req.body.name : area.name;
 			
-            item.save(function (err, item) {
+            area.save(function (err, area) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating item.',
+                        message: 'Error when updating area.',
                         error: err
                     });
                 }
 
-                return res.json(item);
+                return res.json(area);
             });
         });
     },
 
     /**
-     * itemController.remove()
+     * areaController.remove()
      */
     remove: function (req, res) {
         var id = req.params.id;
 
-        ItemModel.findByIdAndRemove(id, function (err, item) {
+        AreaModel.findByIdAndRemove(id, function (err, area) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the item.',
+                    message: 'Error when deleting the area.',
                     error: err
                 });
             }

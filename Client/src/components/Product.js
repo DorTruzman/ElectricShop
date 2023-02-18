@@ -1,15 +1,15 @@
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
 
-function Item({
+function Product({
   id,
   name,
   price,
   description,
   image,
-  itemType,
+  productType,
   addToCart,
-  searchItemsByType,
+  searchProductsByType,
 }) {
   return (
     <Box sx={{ width: 360, marginRight: 2, marginLeft: 2 }}>
@@ -45,7 +45,7 @@ function Item({
       >
         <img src={image} style={{ maxWidth: 180 }} alt="Product" />
       </Box>
-      <Box sx={{ mt: 3, ml: 9, mb: 1 }}>
+      <Box sx={{ mt: 4, ml: 15 }}>
         <Button
           onClick={() => {
             addToCart && addToCart(id);
@@ -53,17 +53,17 @@ function Item({
         >
           הוספה לסל הקניות
         </Button>
-        <Button
+        {/* <Button
           color="success"
           onClick={() => {
-            searchItemsByType && searchItemsByType(itemType.id);
+            searchProductsByType && searchProductsByType(productType._id);
           }}
         >
-          עוד {itemType.name}
-        </Button>
+          עוד {productType.name}
+        </Button> */}
       </Box>
     </Box>
   );
 }
 
-export default Item;
+export default Product;

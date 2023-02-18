@@ -15,6 +15,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import { createEntity } from "./fetchService";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIXJ5YT7hoNbBFqK3TBcV41-TzIO-7n7w",
@@ -51,6 +52,15 @@ const signInWithGoogle = async () => {
         authProvider: "google",
         email: user.email,
       });
+
+      await createEntity({
+        name: "user",
+        entity: {
+          username: user.uid,
+          area: null,
+          userType: null,
+        },
+      });
     }
   } catch (err) {
     throw err;
@@ -74,6 +84,15 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
+    });
+
+    await createEntity({
+      name: "user",
+      entity: {
+        username: user.uid,
+        area: null,
+        userType: null,
+      },
     });
   } catch (err) {
     throw err;
