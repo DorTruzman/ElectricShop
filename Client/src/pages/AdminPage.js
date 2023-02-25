@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AreaChart from "../components/AreaChart";
 import { Button, TextField, Typography } from "@mui/material";
 import { SocketContext } from "../contexts/socketContext";
+import UserSearch from "../components/UserSearch";
 
 function AdminPage() {
   const [numberOfConnected, setNumberOfConnected] = useState(0);
@@ -32,7 +33,20 @@ function AdminPage() {
       <Button onClick={() => socket && socket.emit("ToAPI", adminMsg)}>
         שלח
       </Button>
-      <AreaChart />
+
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <AreaChart />
+        <UserSearch />
+      </div>
     </>
   );
 }

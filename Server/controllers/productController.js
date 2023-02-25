@@ -33,7 +33,6 @@ module.exports = {
       else searchQuery[key] = { $regex: ".*" + value + ".*" };
     }
 
-    console.log("Search Query is ", searchQuery);
     ProductModel.find({ ...searchQuery })
       .populate("productType")
       .exec(function (err, products) {

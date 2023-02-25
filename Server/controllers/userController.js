@@ -111,6 +111,32 @@ module.exports = {
     });
   },
 
+  search: function (req, res) {
+    const params = req.body.searchParams;
+    let searchQuery = {};
+
+    for (const [key, value] of Object.entries(params)) {
+      if (key === "type" || key === "area") searchQuery[key] = value;
+      else if (key === "minOrders")
+        searchQuery["amountOfOrders"] = { $gte: value };
+      else searchQuery[key] = { $regex: ".*" + value + ".*" };
+    }
+
+    UserModel.find({ ...searchQuery })
+      .populate("type")
+      .populate("area")
+      .exec(function (err, users) {
+        if (err) {
+          return res.status(500).json({
+            message: "Error when getting users.",
+            error: err,
+          });
+        }
+
+        return res.json(users);
+      });
+  },
+
   /**
    * userController.update()
    */
@@ -134,6 +160,9 @@ module.exports = {
       user.username = req.body.username ? req.body.username : user.username;
       user.area = req.body.area ? req.body.area : user.area;
       user.type = req.body.type ? req.body.type : user.type;
+      user.amountOfOrders = req.body.amountOfOrders
+        ? req.body.amountOfOrders
+        : user.amountOfOrders;
 
       user.save(function (err, user) {
         if (err) {

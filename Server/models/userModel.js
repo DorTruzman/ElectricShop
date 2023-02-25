@@ -6,6 +6,10 @@ var userSchema = new Schema({
     type: String,
     unique: true,
   },
+  amountOfOrders: {
+    type: Number,
+    default: 0,
+  },
   area: {
     type: Schema.Types.ObjectId,
     ref: "area",

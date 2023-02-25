@@ -4,6 +4,8 @@ var userController = require("../controllers/userController.js");
 
 router.get("/groupByArea", userController.groupByArea);
 
+router.post("/search", userController.search);
+
 /*
  * GET
  */

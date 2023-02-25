@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var userTypeSchema = new Schema(
   {
     name: String,
+    type: String,
   },
   { collection: "userTypes" }
 );
