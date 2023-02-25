@@ -1,4 +1,4 @@
-var UserModel = require('../models/userModel.js');
+var UserModel = require("../models/userModel.js");
 
 /**
  * userController.js
@@ -6,121 +6,163 @@ var UserModel = require('../models/userModel.js');
  * @description :: Server-side logic for managing users.
  */
 module.exports = {
+  groupByArea: function (req, res) {
+    UserModel.aggregate(
+      [
+        {
+          $group: {
+            _id: "$area",
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $lookup: {
+            from: "areas",
+            localField: "_id",
+            foreignField: "_id",
+            as: "fullArea",
+          },
+        },
+      ],
+      function (err, result) {
+        if (err) {
+          return res.status(500).json({
+            message: "Error when getting query.",
+            error: err,
+          });
+        }
 
-    /**
-     * userController.list()
-     */
-    list: function (req, res) {
-        UserModel.find(function (err, users) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user.',
-                    error: err
-                });
-            }
+        if (!result) {
+          return res.status(404).json({
+            message: "No results",
+          });
+        }
 
-            return res.json(users);
+        return res.json(
+          result.map((curr) => ({
+            area:
+              curr.fullArea && curr.fullArea.length && curr.fullArea[0].name,
+            count: curr.count,
+          }))
+        );
+      }
+    );
+  },
+
+  /**
+   * userController.list()
+   */
+  list: function (req, res) {
+    UserModel.find(function (err, users) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error when getting user.",
+          error: err,
         });
-    },
+      }
 
-    /**
-     * userController.show()
-     */
-    show: function (req, res) {
-        var id = req.params.id;
+      return res.json(users);
+    });
+  },
 
-        UserModel.findOne({_id: id}, function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user.',
-                    error: err
-                });
-            }
+  /**
+   * userController.show()
+   */
+  show: function (req, res) {
+    var id = req.params.id;
 
-            if (!user) {
-                return res.status(404).json({
-                    message: 'No such user'
-                });
-            }
-
-            return res.json(user);
+    UserModel.findOne({ _id: id }, function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error when getting user.",
+          error: err,
         });
-    },
+      }
 
-    /**
-     * userController.create()
-     */
-    create: function (req, res) {
-        var user = new UserModel({
-			username : req.body.username,
-			area : req.body.area,
-			type : req.body.type
+      if (!user) {
+        return res.status(404).json({
+          message: "No such user",
         });
+      }
 
-        user.save(function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating user',
-                    error: err
-                });
-            }
+      return res.json(user);
+    });
+  },
 
-            return res.status(201).json(user);
+  /**
+   * userController.create()
+   */
+  create: function (req, res) {
+    var user = new UserModel({
+      username: req.body.username,
+      area: req.body.area,
+      type: req.body.type,
+    });
+
+    user.save(function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error when creating user",
+          error: err,
         });
-    },
+      }
 
-    /**
-     * userController.update()
-     */
-    update: function (req, res) {
-        var id = req.params.id;
+      return res.status(201).json(user);
+    });
+  },
 
-        UserModel.findOne({_id: id}, function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user',
-                    error: err
-                });
-            }
+  /**
+   * userController.update()
+   */
+  update: function (req, res) {
+    var id = req.params.id;
 
-            if (!user) {
-                return res.status(404).json({
-                    message: 'No such user'
-                });
-            }
-
-            user.username = req.body.username ? req.body.username : user.username;
-			user.area = req.body.area ? req.body.area : user.area;
-			user.type = req.body.type ? req.body.type : user.type;
-			
-            user.save(function (err, user) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating user.',
-                        error: err
-                    });
-                }
-
-                return res.json(user);
-            });
+    UserModel.findOne({ _id: id }, function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error when getting user",
+          error: err,
         });
-    },
+      }
 
-    /**
-     * userController.remove()
-     */
-    remove: function (req, res) {
-        var id = req.params.id;
-
-        UserModel.findByIdAndRemove(id, function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when deleting the user.',
-                    error: err
-                });
-            }
-
-            return res.status(204).json();
+      if (!user) {
+        return res.status(404).json({
+          message: "No such user",
         });
-    }
+      }
+
+      user.username = req.body.username ? req.body.username : user.username;
+      user.area = req.body.area ? req.body.area : user.area;
+      user.type = req.body.type ? req.body.type : user.type;
+
+      user.save(function (err, user) {
+        if (err) {
+          return res.status(500).json({
+            message: "Error when updating user.",
+            error: err,
+          });
+        }
+
+        return res.json(user);
+      });
+    });
+  },
+
+  /**
+   * userController.remove()
+   */
+  remove: function (req, res) {
+    var id = req.params.id;
+
+    UserModel.findByIdAndRemove(id, function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error when deleting the user.",
+          error: err,
+        });
+      }
+
+      return res.status(204).json();
+    });
+  },
 };
