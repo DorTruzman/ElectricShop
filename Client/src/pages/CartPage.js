@@ -2,22 +2,43 @@ import {
   Avatar,
   Box,
   Button,
+  FormControl,
+  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
-import { getEntityById } from "../services/fetchService";
+import {
+  getEntities,
+  getEntityById,
+  updateEntityById,
+} from "../services/fetchService";
+import { auth } from "../services/firebase";
 
 function CartPage() {
   const [products, setProducts] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [area, setArea] = useState("");
   const cartState = useContext(CartContext);
   const cart = cartState.state.cart;
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getEntities({ name: "area" }).then((areaList) => {
+      setAreas(areaList);
+    });
+  }, []);
 
   useEffect(() => {
     setProducts([]);
@@ -35,6 +56,13 @@ function CartPage() {
 
     fetchProducts();
   }, [cart]);
+
+  const makePurchase = async () => {
+    updateEntityById({ name: "user", id: user.uid, entity: { area } });
+    cartState.setCart({});
+    alert("תודה שקנית אצלנו!");
+    navigate("/home");
+  };
 
   return (
     <>
@@ -125,18 +153,43 @@ function CartPage() {
               )}{" "}
               ₪
             </Typography>
-
             {products.length ? (
-              <Button
-                color="success"
-                variant="contained"
-                style={{
-                  fontSize: "1.5em",
-                  marginTop: 20,
-                }}
-              >
-                רכישה
-              </Button>
+              <>
+                <FormControl fullWidth style={{ marginTop: 20 }}>
+                  <InputLabel id="productTypeSelect">לאן לשלוח?</InputLabel>
+                  <Select
+                    value={area}
+                    labelId="productTypeSelect"
+                    label="לאן לשלוח?"
+                    onChange={(e) => setArea(e.target.value)}
+                  >
+                    <MenuItem value="">
+                      <em>ניקוי</em>
+                    </MenuItem>
+                    {areas &&
+                      areas.map((type, idx) => (
+                        <MenuItem value={type._id} key={`areaMenuItem${idx}`}>
+                          {type.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+
+                <Button
+                  onClick={() => {
+                    makePurchase();
+                  }}
+                  disabled={!area || area === ""}
+                  color="success"
+                  variant="contained"
+                  style={{
+                    fontSize: "1.5em",
+                    marginTop: 20,
+                  }}
+                >
+                  רכישה
+                </Button>
+              </>
             ) : (
               <></>
             )}
