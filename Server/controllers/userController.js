@@ -71,22 +71,25 @@ module.exports = {
   show: function (req, res) {
     var id = req.params.id;
 
-    UserModel.findOne({ username: id }, function (err, user) {
-      if (err) {
-        return res.status(500).json({
-          message: "Error when getting user.",
-          error: err,
-        });
-      }
+    UserModel.findOne({ username: id })
+      .populate("type")
+      .populate("area")
+      .exec(function (err, user) {
+        if (err) {
+          return res.status(500).json({
+            message: "Error when getting user.",
+            error: err,
+          });
+        }
 
-      if (!user) {
-        return res.status(404).json({
-          message: "No such user",
-        });
-      }
+        if (!user) {
+          return res.status(404).json({
+            message: "No such user",
+          });
+        }
 
-      return res.json(user);
-    });
+        return res.json(user);
+      });
   },
 
   /**

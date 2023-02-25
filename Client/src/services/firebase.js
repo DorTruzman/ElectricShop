@@ -15,7 +15,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
-import { createEntity } from "./fetchService";
+import { createEntity, getEntityById } from "./fetchService";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIXJ5YT7hoNbBFqK3TBcV41-TzIO-7n7w",
@@ -67,6 +67,17 @@ const signInWithGoogle = async () => {
   }
 };
 
+const getUserType = async () => {
+  if (!auth.currentUser || !auth.currentUser.uid) return null;
+
+  const userEntity = await getEntityById({
+    name: "user",
+    id: auth.currentUser.uid,
+  });
+
+  return userEntity.type && userEntity.type.type;
+};
+
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -106,6 +117,7 @@ const logout = () => {
 export {
   auth,
   db,
+  getUserType,
   getUserDisplayName,
   signInWithGoogle,
   logInWithEmailAndPassword,

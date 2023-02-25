@@ -1,5 +1,5 @@
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logout } from "../services/firebase";
+import { auth, getUserType, logout } from "../services/firebase";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +11,7 @@ import pages from "../pages";
 import useName from "../hooks/useName";
 import CartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../contexts/cartContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function Navbar() {
   const [user] = useAuthState(auth);
@@ -19,6 +19,16 @@ function Navbar() {
   const navigate = useNavigate();
   const cartState = useContext(CartContext);
   const { amountOfItems } = cartState.state;
+  const [currentUserType, setCurrentUserType] = useState();
+
+  useEffect(() => {
+    const getType = async () => {
+      let type = await getUserType();
+      setCurrentUserType(type);
+    };
+
+    getType();
+  }, [user]);
 
   return (
     <div>
@@ -44,23 +54,35 @@ function Navbar() {
                 >
                   שלום, {name}!
                 </Typography>
-                {pages.map((page) => (
-                  <MenuItem
-                    key={page.url}
-                    disabled={page.url === "/cart" && !amountOfItems}
-                    onClick={() => navigate(page.url)}
-                  >
-                    {page.url === "/cart" ? (
-                      <>
-                        <Badge color="secondary" badgeContent={amountOfItems}>
-                          <CartIcon />
-                        </Badge>
-                      </>
-                    ) : (
-                      <Typography textAlign="center">{page.name}</Typography>
-                    )}
-                  </MenuItem>
-                ))}
+                {pages.map((page) => {
+                  if (
+                    (page.showForAdmin && currentUserType === "ADMIN") ||
+                    (page.showForCustomer && currentUserType !== "ADMIN")
+                  ) {
+                    return (
+                      <MenuItem
+                        key={page.url}
+                        disabled={page.url === "/cart" && !amountOfItems}
+                        onClick={() => navigate(page.url)}
+                      >
+                        {page.url === "/cart" ? (
+                          <>
+                            <Badge
+                              color="secondary"
+                              badgeContent={amountOfItems}
+                            >
+                              <CartIcon />
+                            </Badge>
+                          </>
+                        ) : (
+                          <Typography textAlign="center">
+                            {page.name}
+                          </Typography>
+                        )}
+                      </MenuItem>
+                    );
+                  } else return <></>;
+                })}
                 <Button
                   color="warning"
                   variant="contained"

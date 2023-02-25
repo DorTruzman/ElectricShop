@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
 import {
@@ -14,9 +15,10 @@ import {
   getEntityById,
   updateEntityById,
 } from "../services/fetchService";
+import { auth, getUserType } from "../services/firebase";
 
 function ProductViewPage() {
-  const isAdmin = false;
+  const [user] = useAuthState(auth);
   const location = useLocation();
   const { productId } = location.state;
   const [product, setProduct] = useState();
@@ -26,6 +28,16 @@ function ProductViewPage() {
   const addToCart = cartState.addAmountOfProductToCart;
   const [updatedParams, setUpdatedParams] = useState({});
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const getType = async () => {
+      let type = await getUserType();
+      setIsAdmin(!!(type === "ADMIN"));
+    };
+
+    getType();
+  }, [user]);
 
   useEffect(() => {
     getEntityById({ name: "product", id: productId }).then((product) => {
