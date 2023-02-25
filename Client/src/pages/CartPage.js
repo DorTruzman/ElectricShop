@@ -58,7 +58,11 @@ function CartPage() {
   }, [cart]);
 
   const makePurchase = async () => {
-    updateEntityById({ name: "user", id: user.uid, entity: { area } });
+    updateEntityById({
+      name: "user",
+      id: user.uid,
+      entity: { area, purchase: true },
+    });
     cartState.setCart({});
     alert("תודה שקנית אצלנו!");
     navigate("/home");

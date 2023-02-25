@@ -3,11 +3,14 @@ import AreaChart from "../components/AreaChart";
 import { Button, TextField, Typography } from "@mui/material";
 import { SocketContext } from "../contexts/socketContext";
 import UserSearch from "../components/UserSearch";
+import UserList from "../components/UserList";
 
 function AdminPage() {
   const [numberOfConnected, setNumberOfConnected] = useState(0);
   const [adminMsg, setAdminMsg] = useState();
   const [lastAdminMsg, setLastAdminMsg] = useState();
+  const [users, setUsers] = useState([]);
+
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -20,6 +23,13 @@ function AdminPage() {
 
   return (
     <>
+      <Typography
+        variant="h4"
+        fontWeight={"bold"}
+        style={{ textAlign: "center", marginBottom: 20 }}
+      >
+        מסך ניהול
+      </Typography>
       <Typography>מספר המחוברים כעת: {numberOfConnected}</Typography>
       <Typography>הודעת אדמין אחרונה: {lastAdminMsg}</Typography>
       <TextField
@@ -45,7 +55,8 @@ function AdminPage() {
         }}
       >
         <AreaChart />
-        <UserSearch />
+        <UserSearch setUsers={setUsers} />
+        <UserList users={users} />
       </div>
     </>
   );

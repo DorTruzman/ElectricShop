@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { getEntities, searchEntity } from "../services/fetchService";
 
-function UserSearch({ searchFunction }) {
+function UserSearch({ setUsers }) {
   const [userTypes, setUserTypes] = useState();
   const [areas, setAreas] = useState();
 
@@ -21,8 +21,7 @@ function UserSearch({ searchFunction }) {
   const [userMinAmountOfOrders, setUserMinAmountOfOrders] = useState("");
   const [userArea, setUserArea] = useState("");
 
-  const [params, setParams] = useState({});
-  const [users, setUsers] = useState([]);
+  const [params, setParams] = useState();
 
   useEffect(() => {
     getEntities({ name: "userType" }).then((userTypes) => {
@@ -34,9 +33,11 @@ function UserSearch({ searchFunction }) {
   }, []);
 
   useEffect(() => {
-    searchEntity({ name: "user", params }).then((productList) => {
-      setUsers(productList);
-    });
+    if (params) {
+      searchEntity({ name: "user", params }).then((productList) => {
+        if (setUsers) setUsers(productList);
+      });
+    }
   }, [params]);
 
   return (
@@ -51,7 +52,7 @@ function UserSearch({ searchFunction }) {
       }}
     >
       <Typography variant="h5" fontWeight={"bold"}>
-        פילוח משתמשים
+        חיפוש משתמשים
       </Typography>
       <List>
         <ListItem>

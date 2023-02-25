@@ -71,7 +71,7 @@ module.exports = {
   show: function (req, res) {
     var id = req.params.id;
 
-    UserModel.findOne({ _id: id }, function (err, user) {
+    UserModel.findOne({ username: id }, function (err, user) {
       if (err) {
         return res.status(500).json({
           message: "Error when getting user.",
@@ -143,7 +143,7 @@ module.exports = {
   update: function (req, res) {
     var id = req.params.id;
 
-    UserModel.findOne({ _id: id }, function (err, user) {
+    UserModel.findOne({ username: id }, function (err, user) {
       if (err) {
         return res.status(500).json({
           message: "Error when getting user",
@@ -160,6 +160,7 @@ module.exports = {
       user.username = req.body.username ? req.body.username : user.username;
       user.area = req.body.area ? req.body.area : user.area;
       user.type = req.body.type ? req.body.type : user.type;
+      if (req.body.purchase) user.amountOfOrders = user.amountOfOrders + 1;
       user.amountOfOrders = req.body.amountOfOrders
         ? req.body.amountOfOrders
         : user.amountOfOrders;
