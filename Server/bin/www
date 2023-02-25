@@ -20,6 +20,30 @@ app.set("port", port);
  */
 
 var server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+let numberOfConnected = 0;
+let lastAdminMsg = undefined;
+
+io.on("connection", (socket) => {
+  numberOfConnected++;
+
+  io.emit("FromAPI", { numberOfConnected, lastAdminMsg });
+
+  socket.on("ToAPI", (adminMsg) => {
+    if (adminMsg && adminMsg !== "") lastAdminMsg = adminMsg;
+    io.emit("FromAPI", { numberOfConnected, lastAdminMsg });
+  });
+
+  socket.on("disconnect", () => {
+    if (numberOfConnected - 1 >= 0) numberOfConnected--;
+    io.emit("FromAPI", { numberOfConnected, lastAdminMsg });
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.

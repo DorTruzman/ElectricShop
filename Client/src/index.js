@@ -7,6 +7,7 @@ import { CacheProvider, ThemeProvider } from "@emotion/react";
 import theme from "./MUI/theme";
 import { cacheRtl } from "./MUI/RTL";
 import { CartContextProvider } from "./contexts/cartContext";
+import { socket, SocketContext } from "./contexts/socketContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
         <CartContextProvider>
-          <App />
+          <SocketContext.Provider value={socket}>
+            <App />
+          </SocketContext.Provider>
         </CartContextProvider>
       </ThemeProvider>
     </CacheProvider>

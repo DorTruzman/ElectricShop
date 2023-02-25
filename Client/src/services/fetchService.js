@@ -53,6 +53,7 @@ const searchEntity = async ({ name, params }) => {
   else throw new Error(`Cannot get ${name}s`);
 };
 export {
+  SERVER_URL,
   createEntity,
   updateEntityById,
   deleteEntityById,
