@@ -5,30 +5,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, InputBase, MenuItem } from "@mui/material";
-import { alpha, styled } from "@mui/system";
+import { Badge, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import pages from "../pages";
 import useName from "../hooks/useName";
+import CartIcon from "@mui/icons-material/ShoppingCart";
+import { CartContext } from "../contexts/cartContext";
+import { useContext } from "react";
 
 function Navbar() {
   const [user] = useAuthState(auth);
   const { name } = useName();
   const navigate = useNavigate();
+  const cartState = useContext(CartContext);
+  const { amountOfItems } = cartState.state;
 
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            {/* <IconButton
-              color="inherit"
-              component="div"
-              aria-label="open drawer"
-            >
-              <SearchIcon />
-            </IconButton> */}
             <Typography
               onClick={() => navigate("/home")}
               style={{ cursor: "pointer" }}
@@ -42,18 +38,43 @@ function Navbar() {
 
             {user ? (
               <>
-                <Typography variant="h7">שלום, {name}!</Typography>
+                <Typography
+                  fontWeight={"bold"}
+                  style={{ marginRight: 30, marginLeft: 30 }}
+                >
+                  שלום, {name}!
+                </Typography>
                 {pages.map((page) => (
-                  <MenuItem key={page.url} onClick={() => navigate(page.url)}>
-                    <Typography textAlign="center">{page.name}</Typography>
+                  <MenuItem
+                    key={page.url}
+                    disabled={page.url === "/cart" && !amountOfItems}
+                    onClick={() => navigate(page.url)}
+                  >
+                    {page.url === "/cart" ? (
+                      <>
+                        <Badge color="secondary" badgeContent={amountOfItems}>
+                          <CartIcon />
+                        </Badge>
+                      </>
+                    ) : (
+                      <Typography textAlign="center">{page.name}</Typography>
+                    )}
                   </MenuItem>
                 ))}
-                <Button color="inherit" onClick={() => logout()}>
+                <Button
+                  color="warning"
+                  variant="contained"
+                  onClick={() => logout()}
+                >
                   התנתקות
                 </Button>
               </>
             ) : (
-              <Button color="inherit" onClick={() => navigate("/login")}>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => navigate("/login")}
+              >
                 התחברות
               </Button>
             )}

@@ -62,10 +62,11 @@ function ProductViewPage() {
           >
             <img src={product.image} style={{ maxWidth: 300 }} alt="Product" />
           </Box>
-          <Box sx={{ mt: 4, ml: 9, my: 1 }}>
+          <Box display="flex" justifyContent="center" alignItems="center">
             <TextField
+              label="כמות"
               variant="standard"
-              style={{ width: "10%" }}
+              style={{ width: "10%", marginLeft: 50 }}
               placeholder="כמות"
               type="number"
               inputProps={{ min: 1, max: cartState.MAX_AMOUNT, step: 1 }}
@@ -73,6 +74,7 @@ function ProductViewPage() {
               onChange={(e) => setAmount(Number(e.target.value))}
             />
             <Button
+              variant="contained"
               disabled={
                 !amount ||
                 (cart[product._id] &&

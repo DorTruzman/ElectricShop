@@ -36,7 +36,7 @@ function Product({ _id, name, price, image, addToCart }) {
       >
         <img src={image} style={{ maxWidth: 180 }} alt="Product" />
       </Box>
-      <Box sx={{ mt: 2 }}>
+      <Box display="flex" justifyContent="center" alignItems="center">
         <Button
           color="success"
           onClick={() => {

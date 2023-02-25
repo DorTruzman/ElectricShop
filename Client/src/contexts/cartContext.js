@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const CartContext = React.createContext({
   state: {},
@@ -50,6 +50,17 @@ export const CartContextProvider = (props) => {
     else currCart[productId].amount += amount;
     setState({ ...state, cart: { ...currCart } });
   };
+
+  useEffect(() => {
+    if (state.cart) {
+      const amountOfItems = Object.values(state.cart).reduce(
+        (_this, val) => _this + val.amount,
+        0
+      );
+
+      setState({ ...state, amountOfItems });
+    }
+  }, [state.cart]);
 
   const ctxValue = {
     state,

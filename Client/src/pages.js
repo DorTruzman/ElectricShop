@@ -6,11 +6,13 @@ const pages = [
     url: "/home",
     name: "דף הבית",
     component: <ProductsPage />,
+    showForAdmin: true,
   },
   {
     url: "/cart",
     name: "סל הקניות",
     component: <CartPage />,
+    showForAdmin: false,
   },
 ];
 
