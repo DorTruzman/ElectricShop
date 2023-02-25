@@ -7,9 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
-import { getEntityById, updateEntityById } from "../services/fetchService";
+import {
+  deleteEntityById,
+  getEntityById,
+  updateEntityById,
+} from "../services/fetchService";
 
 function ProductViewPage() {
   const isAdmin = false;
@@ -21,6 +25,7 @@ function ProductViewPage() {
   const cart = cartState.state.cart;
   const addToCart = cartState.addAmountOfProductToCart;
   const [updatedParams, setUpdatedParams] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEntityById({ name: "product", id: productId }).then((product) => {
@@ -157,19 +162,37 @@ function ProductViewPage() {
                 </Button>
               </>
             ) : (
-              <Button
-                variant="contained"
-                disabled={!updatedParams}
-                onClick={() => {
-                  updateEntityById({
-                    name: "product",
-                    id: product._id,
-                    entity: updatedParams,
-                  });
-                }}
-              >
-                עדכון פרטי המוצר
-              </Button>
+              <>
+                <Button
+                  style={{ margin: 10 }}
+                  variant="contained"
+                  disabled={!updatedParams}
+                  onClick={() => {
+                    updateEntityById({
+                      name: "product",
+                      id: product._id,
+                      entity: updatedParams,
+                    });
+                  }}
+                >
+                  עדכון פרטי המוצר
+                </Button>
+                <Button
+                  style={{ margin: 10 }}
+                  variant="contained"
+                  color="error"
+                  disabled={!updatedParams}
+                  onClick={() => {
+                    deleteEntityById({
+                      name: "product",
+                      id: product._id,
+                    });
+                    navigate("/home");
+                  }}
+                >
+                  מחיקת המוצר
+                </Button>
+              </>
             )}
           </Box>
         </Box>
