@@ -81,8 +81,10 @@ function Sidebar({ searchFunction, productTypes }) {
                   <em>ניקוי</em>
                 </MenuItem>
                 {productTypes &&
-                  productTypes.map((type) => (
-                    <MenuItem value={type._id}>{type.name}</MenuItem>
+                  productTypes.map((type, idx) => (
+                    <MenuItem value={type._id} key={`menuItem${idx}`}>
+                      {type.name}
+                    </MenuItem>
                   ))}
               </Select>
             </FormControl>

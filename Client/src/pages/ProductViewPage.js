@@ -1,12 +1,24 @@
-import { Box, Button, Divider, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { CartContext } from "../contexts/cartContext";
 import { getEntityById } from "../services/fetchService";
 
-function ProductViewPage({}) {
+function ProductViewPage() {
   const location = useLocation();
   const { productId } = location.state;
   const [product, setProduct] = useState();
+  const [amount, setAmount] = useState(0);
+  const cartState = useContext(CartContext);
+  const cart = cartState.state.cart;
+  const addToCart = cartState.addAmountOfProductToCart;
 
   useEffect(() => {
     getEntityById({ name: "product", id: productId }).then((product) => {
@@ -51,9 +63,23 @@ function ProductViewPage({}) {
             <img src={product.image} style={{ maxWidth: 300 }} alt="Product" />
           </Box>
           <Box sx={{ mt: 4, ml: 9, my: 1 }}>
+            <TextField
+              variant="standard"
+              style={{ width: "10%" }}
+              placeholder="כמות"
+              type="number"
+              inputProps={{ min: 1, max: cartState.MAX_AMOUNT, step: 1 }}
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+            />
             <Button
+              disabled={
+                !amount ||
+                (cart[product._id] &&
+                  cart[product._id].amount + amount > cartState.MAX_AMOUNT)
+              }
               onClick={() => {
-                // addToCart && addToCart(id);
+                addToCart && addToCart(product._id, amount);
               }}
             >
               הוספה לסל הקניות

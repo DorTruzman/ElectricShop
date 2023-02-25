@@ -2,16 +2,7 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Product({
-  _id,
-  name,
-  price,
-  description,
-  image,
-  productType,
-  addToCart,
-  searchProductsByType,
-}) {
+function Product({ _id, name, price, image, addToCart }) {
   const navigate = useNavigate();
 
   return (
@@ -45,14 +36,7 @@ function Product({
       >
         <img src={image} style={{ maxWidth: 180 }} alt="Product" />
       </Box>
-      <Box sx={{ mt: 4, ml: 9, my: 1 }}>
-        <Button
-          onClick={() => {
-            addToCart && addToCart(_id);
-          }}
-        >
-          הוספה לסל הקניות
-        </Button>
+      <Box sx={{ mt: 2 }}>
         <Button
           color="success"
           onClick={() => {

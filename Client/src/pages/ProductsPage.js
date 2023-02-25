@@ -31,34 +31,15 @@ function ProductsPage() {
           marginRight: "240px",
         }}
       >
-        {products.map((product) => (
-          <>
+        {products.map((product, idx) => (
+          <React.Fragment key={`product${idx}`}>
             <Product
               {...product}
               searchProductsByType={(type) => {
                 setParams({ ...params, productType: type });
               }}
             />
-            <Product
-              {...product}
-              searchProductsByType={(type) => {
-                setParams({ ...params, productType: type });
-              }}
-            />
-            <Product
-              {...product}
-              searchProductsByType={(type) => {
-                setParams({ ...params, productType: type });
-              }}
-            />
-
-            <Product
-              {...product}
-              searchProductsByType={(type) => {
-                setParams({ ...params, productType: type });
-              }}
-            />
-          </>
+          </React.Fragment>
         ))}
       </div>
     </>

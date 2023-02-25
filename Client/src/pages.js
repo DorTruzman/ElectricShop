@@ -1,3 +1,4 @@
+import CartPage from "./pages/CartPage";
 import ProductsPage from "./pages/ProductsPage";
 
 const pages = [
@@ -9,7 +10,7 @@ const pages = [
   {
     url: "/cart",
     name: "סל הקניות",
-    component: <></>,
+    component: <CartPage />,
   },
 ];
 

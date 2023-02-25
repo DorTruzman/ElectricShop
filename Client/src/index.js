@@ -6,13 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import theme from "./MUI/theme";
 import { cacheRtl } from "./MUI/RTL";
+import { CartContextProvider } from "./contexts/cartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <App />
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </ThemeProvider>
     </CacheProvider>
   </React.StrictMode>
