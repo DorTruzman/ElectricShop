@@ -9,6 +9,8 @@ router.get("/", productController.list);
 
 router.post("/search", productController.search);
 
+router.get("/scrape", productController.scrape);
+
 /*
  * GET
  */

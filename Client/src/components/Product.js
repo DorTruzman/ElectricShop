@@ -7,7 +7,7 @@ function Product({ _id, name, price, image, addToCart }) {
 
   return (
     <Box sx={{ width: 360, marginRight: 2, marginLeft: 2 }}>
-      <Box sx={{ my: 3, mx: 2 }}>
+      <Box sx={{ my: 3, mx: 2, height: 50 }}>
         <Grid container alignItems="center">
           <Grid item xs>
             <Typography
@@ -16,12 +16,12 @@ function Product({ _id, name, price, image, addToCart }) {
               style={{ fontWeight: "bold" }}
               component="div"
             >
-              {name}
+              {name.length > 30 ? name.substring(0, 30) + "..." : name}
             </Typography>
           </Grid>
           <Grid item>
             <Typography gutterBottom variant="h6" component="div">
-              ₪{price}
+              ${price}
             </Typography>
           </Grid>
         </Grid>
@@ -34,7 +34,11 @@ function Product({ _id, name, price, image, addToCart }) {
         justifyContent="center"
         height={150}
       >
-        <img src={image} style={{ maxWidth: 180 }} alt="Product" />
+        <img
+          src={image}
+          style={{ maxWidth: 180, maxHeight: 140 }}
+          alt="Product"
+        />
       </Box>
       <Box display="flex" justifyContent="center" alignItems="center">
         <Button

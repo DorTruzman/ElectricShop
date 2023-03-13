@@ -1,4 +1,5 @@
 var ProductModel = require("../models/productModel.js");
+var products = require("../../products.json");
 
 /**
  * productController.js
@@ -93,6 +94,14 @@ module.exports = {
 
       return res.status(201).json(product);
     });
+  },
+
+  scrape: function (req, res) {
+    products.forEach((p) => {
+      new ProductModel({ ...p }).save();
+    });
+
+    return res.status(200);
   },
 
   /**

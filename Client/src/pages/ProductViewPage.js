@@ -79,7 +79,7 @@ function ProductViewPage() {
               <Grid item>
                 {!isAdmin ? (
                   <Typography gutterBottom variant="h4" component="div">
-                    ₪{product.price}
+                    ${product.price}
                   </Typography>
                 ) : (
                   <TextField
@@ -129,7 +129,7 @@ function ProductViewPage() {
           >
             <img
               src={!isAdmin ? product.image : updatedParams.image}
-              style={{ maxWidth: 300 }}
+              style={{ maxWidth: 300, maxHeight: 280 }}
               alt="Product"
             />
             {isAdmin && (

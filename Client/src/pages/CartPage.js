@@ -134,7 +134,7 @@ function CartPage() {
                       secondary={`${
                         value.price *
                         (cart[value._id] ? cart[value._id].amount : 0)
-                      } ₪`}
+                      } $`}
                     />
                   </ListItemButton>
                 </ListItem>
@@ -155,7 +155,7 @@ function CartPage() {
                   curr.price * (cart[curr._id] ? cart[curr._id].amount : 0),
                 0
               )}{" "}
-              ₪
+              $
             </Typography>
             {products.length ? (
               <>
