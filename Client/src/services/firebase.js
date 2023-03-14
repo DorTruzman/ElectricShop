@@ -15,7 +15,8 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
-import { createEntity, getEntityById } from "./fetchService";
+import { userTypeNames } from "../userTypeNames";
+import { createEntity, getEntities, getEntityById } from "./fetchService";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIXJ5YT7hoNbBFqK3TBcV41-TzIO-7n7w",
@@ -97,12 +98,20 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       email,
     });
 
+    const userTypes = await getEntities({
+      name: "userType",
+    });
+
+    const guestType = userTypes.filter(
+      (utype) => utype.type === userTypeNames.CUSTOMER
+    )[0];
+
     await createEntity({
       name: "user",
       entity: {
         username: user.uid,
         area: null,
-        userType: null,
+        userType: guestType._id,
       },
     });
   } catch (err) {

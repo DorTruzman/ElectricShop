@@ -12,6 +12,7 @@ import useName from "../hooks/useName";
 import CartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../contexts/cartContext";
 import { useContext, useEffect, useState } from "react";
+import { userTypeNames } from "../userTypeNames";
 
 function Navbar() {
   const [user] = useAuthState(auth);
@@ -56,8 +57,10 @@ function Navbar() {
                 </Typography>
                 {pages.map((page) => {
                   if (
-                    (page.showForAdmin && currentUserType === "ADMIN") ||
-                    (page.showForCustomer && currentUserType !== "ADMIN")
+                    (page.showForAdmin &&
+                      currentUserType === userTypeNames.ADMIN) ||
+                    (page.showForCustomer &&
+                      currentUserType !== userTypeNames.ADMIN)
                   ) {
                     return (
                       <MenuItem

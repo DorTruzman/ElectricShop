@@ -16,6 +16,7 @@ import {
   updateEntityById,
 } from "../services/fetchService";
 import { auth, getUserType } from "../services/firebase";
+import { userTypeNames } from "../userTypeNames";
 
 function ProductViewPage() {
   const [user] = useAuthState(auth);
@@ -33,7 +34,7 @@ function ProductViewPage() {
   useEffect(() => {
     const getType = async () => {
       let type = await getUserType();
-      setIsAdmin(!!(type === "ADMIN"));
+      setIsAdmin(!!(type === userTypeNames.ADMIN));
     };
 
     getType();
