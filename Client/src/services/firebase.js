@@ -54,12 +54,20 @@ const signInWithGoogle = async () => {
         email: user.email,
       });
 
+      const userTypes = await getEntities({
+        name: "userType",
+      });
+
+      const guestType = userTypes.filter(
+        (utype) => utype.type === userTypeNames.CUSTOMER
+      )[0];
+
       await createEntity({
         name: "user",
         entity: {
           username: user.uid,
           area: null,
-          userType: null,
+          userType: guestType._id,
         },
       });
     }
