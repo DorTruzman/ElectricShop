@@ -4,12 +4,14 @@ import { Button, TextField, Typography } from "@mui/material";
 import { SocketContext } from "../contexts/socketContext";
 import UserSearch from "../components/UserSearch";
 import UserList from "../components/UserList";
+import ProductForm from "../components/ProductForm";
 
 function AdminPage() {
   const [numberOfConnected, setNumberOfConnected] = useState(0);
   const [adminMsg, setAdminMsg] = useState();
   const [lastAdminMsg, setLastAdminMsg] = useState();
   const [users, setUsers] = useState([]);
+  const [isProductFormOpen, setIsProductFormOpen] = useState(false);
 
   const socket = useContext(SocketContext);
 
@@ -57,7 +59,20 @@ function AdminPage() {
         <AreaChart />
         <UserSearch setUsers={setUsers} />
         <UserList users={users} />
+
+        <ProductForm
+          isOpen={isProductFormOpen}
+          setIsOpen={setIsProductFormOpen}
+        />
       </div>
+      <Button
+        variant="contained"
+        size="large"
+        color="success"
+        onClick={() => setIsProductFormOpen(true)}
+      >
+        יצירת מוצר חדש
+      </Button>
     </>
   );
 }
