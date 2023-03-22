@@ -19,13 +19,12 @@ import { userTypeNames } from "../userTypeNames";
 import { createEntity, getEntities, getEntityById } from "./fetchService";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDIXJ5YT7hoNbBFqK3TBcV41-TzIO-7n7w",
-  authDomain: "fir-auth-6edd8.firebaseapp.com",
-  projectId: "fir-auth-6edd8",
-  storageBucket: "fir-auth-6edd8.appspot.com",
-  messagingSenderId: "904760319835",
-  appId: "1:904760319835:web:44fd0d957f114b4e51447e",
-  measurementId: "G-Q4TYKH9GG7",
+  apiKey: "AIzaSyD4_3S9Oy7YxC2kVIzUKO48ozC82yyPeQg",
+  authDomain: "electric-shop-5d569.firebaseapp.com",
+  projectId: "electric-shop-5d569",
+  storageBucket: "electric-shop-5d569.appspot.com",
+  messagingSenderId: "95147020657",
+  appId: "1:95147020657:web:2fbd219fae67dc56e4a6d0",
 };
 
 const app = initializeApp(firebaseConfig);
